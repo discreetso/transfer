@@ -1,0 +1,28 @@
+     1                                  ; a program to add three numbers using byte variables
+     2                                  
+     3                                  [org 0x0100]
+     4                                  
+     5                                  ; for(int c = 3    c > 0   c--) {
+     6                                  ;    result+=[c]
+     7                                  ; }
+     8                                  
+     9                                  ; initiallize stuff
+    10 00000000 B80000                  mov ax, 0               ; reset the accumulator
+    11 00000003 B90300                  mov cx, 3               ; setting the iterator count
+    12 00000006 BB[1D00]                mov bx, num1            ; set the base
+    13                                  
+    14                                  outerloop:
+    15 00000009 0307                        add ax, [bx]
+    16 0000000B 81C30200                    add bx, 2
+    17                                  
+    18 0000000F 81E90100                    sub cx, 1
+    19 00000013 75F4                        jnz outerloop
+    20                                  
+    21 00000015 A3[2300]                mov [result], ax
+    22                                  
+    23 00000018 B8004C                  mov ax, 0x4c00
+    24 0000001B CD21                    int 0x21
+    25                                  
+    26                                  ;Intel solftware development manual- EFLAGS and instructions (page 435)
+    27 0000001D 05000A000F00            num1: dw 5, 10, 15
+    28 00000023 0000                    result: dw 0

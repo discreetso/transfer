@@ -1,0 +1,22 @@
+     1                                  ; a program to add three variables uisng memory addresses
+     2                                  
+     3                                  [org 0x0100]
+     4                                  ; start of code
+     5                                  
+     6 00000000 A1[1500]                mov ax, [num1]          ; load first number in ax
+     7 00000003 8B1E[1700]              mov bx, [num2]
+     8                                  
+     9 00000007 01D8                    add ax, bx
+    10                                  
+    11 00000009 8B1E[1900]              mov bx, [num3]
+    12 0000000D A3[1B00]                mov [num4], ax
+    13                                  
+    14 00000010 B8004C                  mov ax, 0x4c00
+    15 00000013 CD21                    int 0x21
+    16                                  
+    17 00000015 0500                    num1: dw 5
+    18 00000017 0A00                    num2: dw 10
+    19 00000019 0F00                    num3: dw 15
+    20 0000001B 0000                    num4: dw 0
+    21                                  
+    22                                  ; watch the listing carefully

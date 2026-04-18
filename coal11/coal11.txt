@@ -1,0 +1,26 @@
+what happens when we are trying to multiplying two 8 bit numbers and in result we will get a 16-bit number. We have 16 bit registers but we will not use them we will only use 8-bit registers and see how can we store this 16-bit result in 8 bit registers. 
+this same logic we can apply to multiply two 16 bit numbers or to multiply two 32-bit numbers or to multiply two 64-bit numbers or to multiply two 128-bit numbers.
+so what is the idea? that if we know we have two n-bit numbers even then we can also multiply these n-bit numbers
+in this prev lec we saw two shifting and one add operation 
+in this lecture, we have a number of 16 bits but have space of 8-bits, so here we want to see how can we do add and shifting operations on these type of numbers and spaces.
+it is not complicated. operation in itself is very simple. let's start with shift:
+lets recall the SHL (Shift Logical Left)
+in SHL, MSB fall in the carry bit and a 0 is place in the LSB and RCL (Rotate through Carry Left)
+In RCL, already placed carry bit in CF go to the LSB and MSB bit fall in the carry bit
+Now combine both and imply then on a 16-bit number
+				LSB
+			|c| -> |0|0|1|1|0|1|1|0|
+	MSB
+|c| -> |1|0|1|1|0|1|0|0|
+see above is a 16 bit number we do SHL most significant bit of the LSB will fall into the carry, 0 will be placed in the least significant bit of LSB 
+				LSB
+			|0| -> |0|1|1|0|1|1|0|0|
+	MSB
+|c| -> |1|0|1|1|0|1|0|0|
+in RCL, carry bit of the LSB will go into the least significant bit of MSB and the most significant bit of the MSB will fall in the carry bit.
+				LSB
+			|c| -> |0|1|1|0|1|1|0|0|
+	MSB
+|1| -> |0|1|1|0|1|0|0|0|
+so now we can do shift left operation on 16-bit numbers same as opposite we can do shift right operations on it
+

@@ -1,0 +1,65 @@
+			<----- The Biggest Source of Bugs in a Program is Behind the Keyboard ----->
+
+so here's our algorithm 
+first, Shift Logical Right (SHR) our multiplier
+(when we will do the SHR, the most significant bit (MSB) will fall in the carry) 
+secondly, if carry exists, then add the multiplier to a variable result (it will be opposite in asm lang)
+if not carry, then it will not do the addition 
+third, do shift logical left (SHL) with the multiplicand
+
+also remember, by default we do the simple shifts SHR AND SHL 
+but when we know or need to do some thing with the carry bit or MSB or LSB or anything then we do the other shift operations
+
+now see when we do the Shift Logical Left with the multiplicand and we only using 4 bits to place these bits in register, 
+by SHL the most significant bit will fall to the carry bit, for example, we have a number 9 which is in binary 1001 when 
+we do SHL on it, the MSB will fall in the carry, now number 9 will become 2, see whole number destroyed. we let the MSB to fall in the carry bit but we want to add 
+it to a variable result. We can somehow do something with carry bit and add it to the result variable but it will get 
+complicated and more instructions will used. 
+
+but we will take the easy route instead of taking 4 bits for multiplication of 4 bits numbers we will take 8 bits space 
+for both (multiplicand and multiplier) and on multiplying these 8 bits numbers we can get maximum 16 bits in result which
+we can handle but if there are 16 bits numbers which we have to multiply the maximum result will be 32 bits then it will
+be a problem we will see that problem later.
+
+As these are 4 bits numbers and we are taking 8 bits space for each of these two 4 bits numbers why when we can accomodate
+them into 4 bits space?
+due to two reasons: first here in this example numbers are 13 and 5 but what if both (multiplicand and multiplier) will be
+two digits numbers 11 into 11 it will become 121, means two digit numbers can lead to 3 digits numbers. for saving and 
+computing these we need more extra space.
+Secondly, due to memory and code (instructions) trade off, as explain earlier the problem of falling into carry bit 
+we can use more instructions or more memory as memory is cheaper we choose memory in this trade off, for example, in games 
+gaming companies says you buy 32 GB ram we will give 120 fps in the game because they use less instructions and more
+memory.
+
+let's go to the code
+
+[org 0x0100]
+
+jmp start
+
+multiplicand: db 13		; 4 bit number, save space  of 8-bits
+multiplier: db 5		; 4-bit
+
+result: db 0			; 8-bit result
+
+start:
+	mov cl, 4		; how many times we need to run the loop
+	mov bl, [multiplicand]
+	mov dl, [mulitiplier]
+	
+	checkbit:
+		shr dl, 1	; do the rotation so that right bit is thrown into CF
+		jnc skip
+			add [result], bl		; only add if CF is set
+		
+		skip: 
+		shl bl, 1		; always shift the multiplicand
+	
+	dec cl
+	jnz checkbit
+		 
+	mov ax, 0x4c00
+	int 0x21
+	
+	
+	
